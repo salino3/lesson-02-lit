@@ -10,24 +10,59 @@ export class EitCounter extends LitElement {
         color: blue;
       }
       .paragraph {
-        color: red;
+        color: orange;
+        font-size: 20px;
+        font-weight: 600;
+      }
+      .boxInput {
+        padding: 12px 0px;
+      }
+      .boxInput input {
+        width: 40px;
+
+      }
+      .btnPlus1 {
+        cursor: pointer;
       }
     `,
   ];
 
+  // static get properties() {
+  //   return {
+  //     prop1: {type: String}
+  //   };
+  // }
+
+  static properties = {
+    counter: { type: Number, reflect: true },
+  };
+
   constructor() {
     super();
-    
-    window.addEventListener("load", () => {
-      alert("¡Hola!");
-    });
+    this.counter = 10;
   }
 
   render() {
     return html`
-      <h2 class="titlePage">My Counter:</h2>
-      <p class="paragraph">Paragraph</p>
+      <slot></slot>
+      <p class="paragraph">${this.counter}</p>
+      <div class="boxInput">
+        <input id="quantity" type="number" value="1" />
+      </div>
+      <button @click=${this.decrement} class="btnPlus1">- 1</button>
+      <button @click=${this.increment} class="btnPlus1">+ 1</button>
     `;
+  }
+
+  get quantity() {
+    return parseInt(this.shadowRoot.getElementById("quantity").value);
+  }
+
+  increment() {
+    this.counter += this.quantity;
+  }
+  decrement() {
+    this.counter -= this.quantity;
   }
 }
 
